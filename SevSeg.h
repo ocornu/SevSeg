@@ -24,11 +24,16 @@
 #define S7_R_ON_DIGITS    0
 #define S7_R_ON_SEGMENTS  1
 // If you use current-limiting resistors on your segment pins instead of the
-// digit pins, then change 'S7_R_ON_DIGITS' in the line below to 'S7_R_ON_SEGMENTS'.
-//#define RESISTORS  ON_SEGMENTS
+// digit pins, set S7_RESISTORS to S7_R_ON_SEGMENTS.
+#ifndef S7_RESISTORS
 #define S7_RESISTORS   S7_R_ON_DIGITS
-#define S7_DIGITS      8 //Increase this number to support larger displays
+#endif
+#ifndef S7_DIGITS
+#define S7_DIGITS      3 //Increase this number to support larger displays
+#endif
+#ifndef S7_SEGMENTS
 #define S7_SEGMENTS    8
+#endif
 
 
 #ifndef SevSeg_h
