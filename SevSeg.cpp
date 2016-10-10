@@ -134,7 +134,7 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
 // There are 2 versions of this function, with the choice depending on the
 // location of the current-limiting resistors.
 
-#if !(RESISTORS_ON_SEGMENTS)
+#if RESISTORS==ON_DIGITS
 //For resistors on *digits* we will cycle through all 8 segments (7 + period), turning on the *digits* as appropriate
 //for a given segment, before moving on to the next segment
 void SevSeg::refreshDisplay(){
@@ -159,7 +159,7 @@ void SevSeg::refreshDisplay(){
   }
 }
 
-#else
+#else  /* RESISTORS==ON_SEGMENTS */
 //For resistors on *segments* we will cycle through all __ # of digits, turning on the *segments* as appropriate
 //for a given digit, before moving on to the next digit
 void SevSeg::refreshDisplay(){
@@ -183,7 +183,7 @@ void SevSeg::refreshDisplay(){
     digitalWrite(digitPins[digitNum], digitOff);
   }
 }
-#endif
+#endif  /* RESISTORS==ON_SEGMENTS */
 
 
 // setBrightness

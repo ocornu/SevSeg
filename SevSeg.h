@@ -21,9 +21,11 @@
  See the included readme for instructions.
  */
 
+#define ON_DIGITS    0
+#define ON_SEGMENTS  1
 // If you use current-limiting resistors on your segment pins instead of the
-// digit pins, then change the '0' in the line below to a '1'
-#define RESISTORS_ON_SEGMENTS 0
+// digit pins, then change 'ON_DIGITS' in the line below to 'ON_SEGMENTS'
+#define RESISTORS  ON_DIGITS
 #define MAXNUMDIGITS 8 //Increase this number to support larger displays
 
 
