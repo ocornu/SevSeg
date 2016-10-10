@@ -21,31 +21,32 @@
  See the included readme for instructions.
  */
 
-#define ON_DIGITS    0
-#define ON_SEGMENTS  1
+#define S7_R_ON_DIGITS    0
+#define S7_R_ON_SEGMENTS  1
 // If you use current-limiting resistors on your segment pins instead of the
-// digit pins, then change 'ON_DIGITS' in the line below to 'ON_SEGMENTS'
-#define RESISTORS  ON_DIGITS
-#define MAXNUMDIGITS 8 //Increase this number to support larger displays
-#define SEGMENTS     8
+// digit pins, then change 'S7_R_ON_DIGITS' in the line below to 'S7_R_ON_SEGMENTS'.
+//#define RESISTORS  ON_SEGMENTS
+#define S7_RESISTORS   S7_R_ON_DIGITS
+#define S7_MAX_DIGITS  8 //Increase this number to support larger displays
+#define S7_SEGMENTS    8
 
 
 #ifndef SevSeg_h
 #define SevSeg_h
 
-#if defined(ARDUINO) && ARDUINO >= 100
+#if 1//defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #else
 #include "WProgram.h"
 #endif
 
 // Use defines to link the hardware configurations to the correct numbers
-#define COMMON_CATHODE 0
-#define COMMON_ANODE 1
-#define N_TRANSISTORS 2
-#define P_TRANSISTORS 3
-#define NP_COMMON_CATHODE 1
-#define NP_COMMON_ANODE 0
+#define S7_COMMON_CATHODE     0
+#define S7_COMMON_ANODE       1
+#define S7_N_TRANSISTORS      2
+#define S7_P_TRANSISTORS      3
+#define S7_NP_COMMON_CATHODE  1
+#define S7_NP_COMMON_ANODE    0
 
 
 class SevSeg
@@ -79,11 +80,11 @@ private:
   void setDigitCodes(byte nums[], byte decPlaces);
 
   boolean digitOn,digitOff,segmentOn,segmentOff;
-  byte digitPins[MAXNUMDIGITS];
-  byte segmentPins[SEGMENTS];
+  byte digitPins[S7_MAX_DIGITS];
+  byte segmentPins[S7_SEGMENTS];
   byte numDigits;
   byte common;
-  byte digitCodes[MAXNUMDIGITS];
+  byte digitCodes[S7_MAX_DIGITS];
   int ledOnTime;
   const static long powersOf10[10];
 

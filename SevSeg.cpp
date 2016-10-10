@@ -75,7 +75,7 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
                     
   numDigits = numDigitsIn;
   //Limit the max number of digits to prevent overflowing
-  if (numDigits > MAXNUMDIGITS) numDigits = MAXNUMDIGITS;
+  if (numDigits > S7_MAX_DIGITS) numDigits = S7_MAX_DIGITS;
 
   switch (hardwareConfig){
 
@@ -136,7 +136,7 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
 #if RESISTORS==ON_DIGITS
 //For resistors on *digits* we will cycle through all 8 segments (7 + period), turning on the *digits* as appropriate
 //for a given segment, before moving on to the next segment
-#define REFRESH_STEPS  SEGMENTS
+#define REFRESH_STEPS  S7_SEGMENTS
 
 void SevSeg::lightsOn(byte segment) {
 	const byte bitmask = 1 << segment;
@@ -228,7 +228,7 @@ void SevSeg::clearDisplay(){
 	digitalWrite(digitPins[digit], digitOff);
   }
   //Turn off all segments
-  for (byte segment=0 ; segment < SEGMENTS ; segment++) {
+  for (byte segment=0 ; segment < S7_SEGMENTS ; segment++) {
 	digitalWrite(segmentPins[segment], segmentOff);
   }
 }
