@@ -69,6 +69,8 @@ public:
   void setSegments(byte segs[]);
 
 private:
+  void lightsOn(byte current);
+  void lightsOff(byte current);
   void setNewNum(long numToShow, byte decPlaces);
   void findDigits(long numToShow, byte decPlaces, byte nums[]);
   void setDigitCodes(byte nums[], byte decPlaces);

@@ -126,64 +126,78 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
 }
 
 
-// refreshDisplay
+// lightsOn & lightsOff
 /******************************************************************************/
-// Flashes the output on the seven segment display.
-// This is achieved by cycling through all segments and digits, turning the
-// required segments on as specified by the array 'digitCodes'.
-// There are 2 versions of this function, with the choice depending on the
+// Illuminate or switch off a group segments on the seven segment display.
+// There are 2 versions of these function, with the choice depending on the
 // location of the current-limiting resistors.
 
 #if RESISTORS==ON_DIGITS
 //For resistors on *digits* we will cycle through all 8 segments (7 + period), turning on the *digits* as appropriate
 //for a given segment, before moving on to the next segment
-void SevSeg::refreshDisplay(){
-  for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
+#define REFRESH_STEPS  SEGMENTS
 
-    // Illuminate the required digits for this segment
-    digitalWrite(segmentPins[segmentNum], segmentOn);
-    for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
-      if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-        digitalWrite(digitPins[digitNum], digitOn);
+void SevSeg::lightsOn(byte segment) {
+	const byte bitmask = 1 << segment;
+    //Turn on all digits
+    for (byte digit=0 ; digit < numDigits ; digit++){
+      if (digitCodes[digit] & bitmask) { // Check a single bit
+        digitalWrite(digitPins[digit], digitOn);
       }
     }
-
-    //Wait with lights on (to increase brightness)
-    delayMicroseconds(ledOnTime); 
-
-    //Turn all lights off
-    for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
-      digitalWrite(digitPins[digitNum], digitOff);
-    }
-    digitalWrite(segmentPins[segmentNum], segmentOff);
-  }
+    //Turn on common segment
+    digitalWrite(segmentPins[segment], segmentOn);
 }
 
+void SevSeg::lightsOff(byte segment) {
+  //Turn off common segment
+  digitalWrite(segmentPins[segment], segmentOff);
+  //Turn off all digits
+  for (byte digit=0 ; digit < numDigits ; digit++){
+    digitalWrite(digitPins[digit], digitOff);
+  }
+}
 #else  /* RESISTORS==ON_SEGMENTS */
 //For resistors on *segments* we will cycle through all __ # of digits, turning on the *segments* as appropriate
 //for a given digit, before moving on to the next digit
-void SevSeg::refreshDisplay(){
-  for (byte digitNum=0 ; digitNum < numDigits ; digitNum++){
+#define REFRESH_STEPS  numDigits
 
-    // Illuminate the required segments for this digit
-    digitalWrite(digitPins[digitNum], digitOn);
-    for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
-      if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
-        digitalWrite(segmentPins[segmentNum], segmentOn);
-      }
+  void SevSeg::lightsOn(byte digit) {
+  const byte code = digitCodes[digit];
+  //Turn on all segments
+  for (byte segment=0 ; segment < SEGMENTS ; segment++) {
+    if (code & (1 << segment)) { // Check a single bit
+      digitalWrite(segmentPins[segment], segmentOn);
     }
-
-    //Wait with lights on (to increase brightness)
-    delayMicroseconds(ledOnTime);
-
-    //Turn all lights off
-    for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
-      digitalWrite(segmentPins[segmentNum], segmentOff);
-    }
-    digitalWrite(digitPins[digitNum], digitOff);
+  }
+  //Turn on common digit
+  digitalWrite(digitPins[digit], digitOn);
+}
+void SevSeg::lightsOff(byte digit) {
+  //Turn off common digit
+  digitalWrite(digitPins[digit], digitOff);
+  //Turn off all segments
+  for (byte segment=0 ; segment < SEGMENTS ; segment++) {
+    digitalWrite(segmentPins[segment], segmentOff);
   }
 }
 #endif  /* RESISTORS==ON_SEGMENTS */
+
+
+// refreshDisplay
+/******************************************************************************/
+// Flashes the output on the seven segment display.
+// This is achieved by cycling through all segments and digits, turning the
+// required segments on as specified by the array 'digitCodes'.
+
+void SevSeg::refreshDisplay(){
+  for (byte step = 0; step < REFRESH_STEPS; step++) {
+    lightsOn(step);
+    //Wait with lights on (to increase brightness)
+    delayMicroseconds(ledOnTime);
+    lightsOff(step);
+  }
+}
 
 
 // setBrightness
