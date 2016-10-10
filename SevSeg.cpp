@@ -138,7 +138,7 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
 //For resistors on *digits* we will cycle through all 8 segments (7 + period), turning on the *digits* as appropriate
 //for a given segment, before moving on to the next segment
 void SevSeg::refreshDisplay(){
-  for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
+  for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
 
     // Illuminate the required digits for this segment
     digitalWrite(segmentPins[segmentNum], segmentOn);
@@ -167,7 +167,7 @@ void SevSeg::refreshDisplay(){
 
     // Illuminate the required segments for this digit
     digitalWrite(digitPins[digitNum], digitOn);
-    for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
+    for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
       if (digitCodes[digitNum] & (1 << segmentNum)) { // Check a single bit
         digitalWrite(segmentPins[segmentNum], segmentOn);
       }
@@ -177,7 +177,7 @@ void SevSeg::refreshDisplay(){
     delayMicroseconds(ledOnTime);
 
     //Turn all lights off
-    for (byte segmentNum=0 ; segmentNum < 8 ; segmentNum++) {
+    for (byte segmentNum=0 ; segmentNum < SEGMENTS ; segmentNum++) {
       digitalWrite(segmentPins[segmentNum], segmentOff);
     }
     digitalWrite(digitPins[digitNum], digitOff);

@@ -27,6 +27,7 @@
 // digit pins, then change 'ON_DIGITS' in the line below to 'ON_SEGMENTS'
 #define RESISTORS  ON_DIGITS
 #define MAXNUMDIGITS 8 //Increase this number to support larger displays
+#define SEGMENTS     8
 
 
 #ifndef SevSeg_h
@@ -74,7 +75,7 @@ private:
 
   boolean digitOn,digitOff,segmentOn,segmentOff;
   byte digitPins[MAXNUMDIGITS];
-  byte segmentPins[8];
+  byte segmentPins[SEGMENTS];
   byte numDigits;
   byte digitCodes[MAXNUMDIGITS];
   int ledOnTime;
