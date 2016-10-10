@@ -75,7 +75,7 @@ void SevSeg::begin(const byte hardwareConfig, const byte numDigitsIn,
                     
   numDigits = numDigitsIn;
   //Limit the max number of digits to prevent overflowing
-  if (numDigits > S7_MAX_DIGITS) numDigits = S7_MAX_DIGITS;
+  if (numDigits > S7_DIGITS) numDigits = S7_DIGITS;
 
   switch (hardwareConfig){
 

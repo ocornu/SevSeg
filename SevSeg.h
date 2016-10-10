@@ -27,7 +27,7 @@
 // digit pins, then change 'S7_R_ON_DIGITS' in the line below to 'S7_R_ON_SEGMENTS'.
 //#define RESISTORS  ON_SEGMENTS
 #define S7_RESISTORS   S7_R_ON_DIGITS
-#define S7_MAX_DIGITS  8 //Increase this number to support larger displays
+#define S7_DIGITS      8 //Increase this number to support larger displays
 #define S7_SEGMENTS    8
 
 
@@ -80,11 +80,11 @@ private:
   void setDigitCodes(byte nums[], byte decPlaces);
 
   boolean digitOn,digitOff,segmentOn,segmentOff;
-  byte digitPins[S7_MAX_DIGITS];
+  byte digitPins[S7_DIGITS];
   byte segmentPins[S7_SEGMENTS];
   byte numDigits;
   byte common;
-  byte digitCodes[S7_MAX_DIGITS];
+  byte digitCodes[S7_DIGITS];
   int ledOnTime;
   const static long powersOf10[10];
 
