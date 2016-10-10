@@ -54,6 +54,8 @@ public:
   SevSeg();
 
   void refreshDisplay();
+  void updateDisplay();
+  void clearDisplay();
   void begin(const byte hardwareConfig, const byte numDigitsIn,
              const byte digitPinsIn[],  const byte segmentPinsIn[]);
   void setBrightness(int brightnessIn); // A number from 0..100
@@ -79,6 +81,7 @@ private:
   byte digitPins[MAXNUMDIGITS];
   byte segmentPins[SEGMENTS];
   byte numDigits;
+  byte common;
   byte digitCodes[MAXNUMDIGITS];
   int ledOnTime;
   const static long powersOf10[10];

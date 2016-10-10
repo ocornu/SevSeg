@@ -200,6 +200,39 @@ void SevSeg::refreshDisplay(){
 }
 
 
+// updateDisplay
+/******************************************************************************/
+// Switch off the current segments and switch on the next ones.
+// Meant to be called from interrupt context, to offload display updates to a
+// hardware timer.
+
+void SevSeg::updateDisplay(){
+  lightsOff(common);
+  if (++common == REFRESH_STEPS) {
+	  common = 0;
+  }
+  lightsOn(common);
+}
+
+
+// clearDisplay
+/******************************************************************************/
+// Switch off all segments on the seven segment display.
+// Necessary with interrupt-driven display (see: updateDisplay()), to make sure
+// all segments are off during a POWER_DOWN, for example.
+
+void SevSeg::clearDisplay(){
+  //Turn off all digits
+  for (byte digit=0 ; digit < numDigits ; digit++){
+	digitalWrite(digitPins[digit], digitOff);
+  }
+  //Turn off all segments
+  for (byte segment=0 ; segment < SEGMENTS ; segment++) {
+	digitalWrite(segmentPins[segment], segmentOff);
+  }
+}
+
+
 // setBrightness
 /******************************************************************************/
 
