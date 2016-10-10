@@ -37,6 +37,7 @@
  */
 
 #include "SevSeg.h"
+#include <avr/pgmspace.h>
 
 #define BLANK 10 // Must match with 'digitCodeMap', defined in 'setDigitCodes' 
 #define DASH 11
@@ -308,6 +309,17 @@ void SevSeg::setSegments(byte segs[])
 {
   for (byte digit = 0; digit < numDigits; digit++) {
 	  digitCodes[digit] = segs[digit];
+  }
+}
+
+
+// setSegmentsPGM
+/******************************************************************************/
+// Same as setSegments() with a PROGMEM pointer.
+
+void SevSeg::setSegmentsPGM(const byte *segs) {
+  for (byte digit = 0; digit < numDigits; digit++) {
+    digitCodes[digit] = pgm_read_byte(segs++);
   }
 }
 

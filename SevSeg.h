@@ -69,6 +69,7 @@ public:
   void setNumber(float numToShow, byte decPlaces);
 
   void setSegments(byte segs[]);
+  void setSegmentsPGM(const byte *segs);
 
 private:
   void lightsOn(byte current);
