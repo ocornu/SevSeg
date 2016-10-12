@@ -77,6 +77,8 @@ public:
   void setSegments(byte segs[]);
   void setSegmentsPGM(const byte *segs);
 
+  byte digitCodes[S7_DIGITS];
+
 private:
   void lightsOn(byte current);
   void lightsOff(byte current);
@@ -89,7 +91,6 @@ private:
   byte segmentPins[S7_SEGMENTS];
   byte numDigits;
   byte common;
-  byte digitCodes[S7_DIGITS];
   int ledOnTime;
   const static long powersOf10[10];
 
